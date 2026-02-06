@@ -1,9 +1,31 @@
 class CategoryModel {
 
-  static async getAllCategories(conn) {
-    const sql = `SELECT id, category_name FROM categories`;
-    const [rows] = await conn.execute(sql);
-    return rows;
+  static async getAllCategories(conn, page, limit) {
+    try {
+      page = Number(page) || 1;
+      limit = Number(limit) || 10;
+      const offset = (page - 1) * limit;
+      const dataSql = `
+        SELECT id, category_name, status
+        FROM categories
+        ORDER BY id DESC
+        LIMIT ${limit} OFFSET ${offset}
+      `;
+      const [categories] = await conn.query(dataSql);
+      const countSql = `
+        SELECT COUNT(*) AS total
+        FROM categories
+      `;
+      const [[{ total }]] = await conn.query(countSql);
+      return {
+        categories,
+        totalPages: Math.ceil(total / limit),
+        currentPage: page,
+        totalCategories: total
+      };
+    } catch (error) {
+      throw error;
+    }
   }
 
   static async insertCategory(data, conn) {

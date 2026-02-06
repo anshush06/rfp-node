@@ -27,6 +27,18 @@ class UserModel {
       throw error;
     }
   }
+  static async updatePassword({ userId, role, password }, conn) {
+    try {
+      const table = role === 'vendor' ? 'vendors' : 'users';
+      const sql = `UPDATE ${table} SET password = ? WHERE id = ?`;
+      const [result] = await conn.execute(sql, [password, userId]);
+      if (result.affectedRows === 0) {
+        throw new Error("Password update failed");
+      }
+    } catch (error) {
+      throw error;
+    }
+  }
 }
 
 module.exports = UserModel;

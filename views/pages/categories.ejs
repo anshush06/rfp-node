@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <%- include('../partials/head'); %>
+  </head>
+  <body data-sidebar="dark">
+    <!-- [ navigation menu ] start -->
+    <%- include('../partials/header'); %>
+    <!-- [ navigation menu ] end -->
+    <%- include('../partials/sidebar'); %>
+    <div class="main-content">
+      <div class="page-content">
+        <div class="container-fluid">
+          <!-- start page title -->
+          <div class="row">
+            <div class="col-12">
+              <div
+                class="page-title-box d-flex align-items-center justify-content-between"
+              >
+                <h4 class="mb-0 font-size-18">Categories</h4>
+
+                <div class="page-title-right">
+                  <ol class="breadcrumb m-0">
+                    <li class="breadcrumb-item">
+                      <a href="javascript: void(0);">Home</a>
+                    </li>
+                    <li class="breadcrumb-item active">Categories</li>
+                  </ol>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- end page title -->
+
+          <!-- end row -->
+
+          <div class="row">
+            <div class="col-lg-12">
+              <div class="card">
+                <div class="card-body">
+                  <div class="TableHeader">
+                    <div class="row">
+                      <div class="col-lg-3">
+                        <h4 class="card-title">Categories</h4>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="table-responsive">
+                    <table
+                      class="table mb-0 listingData dt-responsive"
+                      id="datatable"
+                    >
+                      <thead>
+                        <tr>
+                          <th>S. No.</th>
+                          <th>Category name</th>
+                          <th>Status</th>
+                          <th>Action</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <% if (categories && categories.length > 0) { %>
+                        <% categories.forEach((category, index) => { %>
+                            <tr>
+                            <th scope="row"><%= index + 1 %></th>
+                            <td><%= category.category_name %></td>
+                            <td>
+                                <% if (category.status === 1) { %>
+                                <span class="badge badge-pill badge-success">Active</span>
+                                <% } else { %>
+                                <span class="badge badge-pill badge-danger">Inactive</span>
+                                <% } %>
+                            </td>
+                            <td>
+                                <a
+                                href="/categories/edit/<%= category.id %>"
+                                class="text-primary mr-2"
+                                title="Edit"
+                                >
+                                <i class="mdi mdi-pencil"></i>
+                                </a>
+                                <a
+                                href="/categories/toggle-status/<%= category.id %>"
+                                class="text-danger"
+                                title="Disable"
+                                >
+                                <i class="mdi mdi-circle-off-outline"></i>
+                                </a>
+                            </td>
+                            </tr>
+                        <% }) %>
+                        <% } else { %>
+                        <tr>
+                            <td colspan="4" class="text-center">No categories found</td>
+                        </tr>
+                        <% } %>
+                        </tbody>
+                    </table>
+                  </div>
+
+                <div class="row pt-3">
+                    <div class="col-sm-12 col-md-5">
+                        <%
+                        const start = (currentPage - 1) * limit + 1;
+                        const end = Math.min(currentPage * limit, totalCategories);
+                        %>
+                        <div
+                        class="dataTables_info"
+                        id="datatable_info"
+                        role="status"
+                        aria-live="polite"
+                        >
+                        Showing <%= start %> to <%= end %> of <%= totalCategories %> entries
+                        </div>
+                    </div>
+
+                    <div class="col-sm-12 col-md-7 dataTables_wrapper">
+                        <div class="dataTables_paginate paging_simple_numbers">
+                        <ul class="pagination">
+                            <li class="page-item <%= currentPage === 1 ? 'disabled' : '' %>">
+                            <a class="page-link" href="?page=<%= currentPage - 1 %>">Previous</a>
+                            </li>
+
+                            <% for (let i = 1; i <= totalPages; i++) { %>
+                            <li class="page-item <%= i === currentPage ? 'active' : '' %>">
+                                <a class="page-link" href="?page=<%= i %>"><%= i %></a>
+                            </li>
+                            <% } %>
+
+                            <li class="page-item <%= currentPage === totalPages ? 'disabled' : '' %>">
+                            <a class="page-link" href="?page=<%= currentPage + 1 %>">Next</a>
+                            </li>
+                        </ul>
+                        </div>
+                    </div>
+                    </div>
+
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </body>
+  <%- include('../partials/footer'); %>
+</html>
