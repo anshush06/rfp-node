@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <%- include('../partials/head'); %>
+</head>
+
+<body data-sidebar="dark">
+    <!-- [ Main Content ] start -->
+    <div class="home-btn d-none d-sm-block">
+            <a href="index.html" class="text-dark"><i class="fas fa-home h2"></i></a>
+    </div>
+    <div class="account-pages my-5 pt-sm-5">
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-md-8 col-lg-6 col-xl-8">
+                    <div class="card overflow-hidden">
+                        <div class="bg-soft-primary">
+                            <div class="row">
+                                <div class="col-12">
+                                    <div class="text-primary p-4">
+                                        <h5 class="text-primary">Welcome to RFP System!</h5>
+                                        <p>Regsiter as Vendor</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card-body pt-0"> 
+                            <span class="text-danger" style="font-size: 22px;"><%= error %></span>
+                            <div class="p-4">
+                                <form class="form-horizontal" action="/users/register-vendor" method="post">
+                                    <div class="row">
+                                        <div class="col-md-12 col-lg-6 col-xl-6">
+                                            <div class="form-group">
+                                                <label for="firstname">First name*</label>
+                                                <input type="text" class="form-control" id="firstname" placeholder="Enter Firstname" name="firstName" required value="<%= firstName %>">
+                                            </div>
+                                        </div>
+                                        <div class="col-md-12 col-lg-6 col-xl-6">
+                                            <div class="form-group">
+                                                <label for="lastname">Last Name<em>*</em></label>
+                                                <input type="text" class="form-control" id="lastname" placeholder="Enter Lastname" name="lastName" value="<%= lastName %>" required>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-12">
+                                            <div class="form-group">
+                                                <label for="email">Email*</label>
+                                                <input type="text" class="form-control" id="email" placeholder="Enter Email" name="email" value="<%= email %>" required>
+                                            </div>
+                                        </div>
+                                        
+                                        <div class="col-md-12 col-lg-6 col-xl-6">
+                                            <div class="form-group">
+                                                <label for="password">Password*</label>
+                                                <input type="password" class="form-control" id="password" placeholder="Enter Password" name="password">
+                                            </div>
+                                        </div>
+                                        <div class="col-md-12 col-lg-6 col-xl-6">
+                                            <div class="form-group">
+                                                <label for="confirmPassword">Confirm Password*</label>
+                                                <input type="password" class="form-control" id="confirmPassword" placeholder="Enter Confirm Password" name="confirmPassword">
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-12 col-lg-6 col-xl-6">
+                                            <div class="form-group">
+                                                <label for="revenue">Revenue (Last 3 Years in Lacks)*</label>
+                                                <input type="text" class="form-control" id="revenue" placeholder="Enter Revenue" value="<%= revenue %>" name="revenue" required>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-12 col-lg-6 col-xl-6">
+                                            <div class="form-group">
+                                                <label for="noofemployees">No of Employees*</label>
+                                                <input type="text" class="form-control" id="noofemployees" placeholder="No of Employees" value="<%= noOfEmployees %>" name="noOfEmployees" required>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-12 col-lg-6 col-xl-6">
+                                            <div class="form-group">
+                                                <label for="gstno">GST No*</label>
+                                                <input type="text" class="form-control" id="gstno" placeholder="Enter GST No" value="<%= gstNo %>" name="gstNo" required>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-12 col-lg-6 col-xl-6">
+                                            <div class="form-group">
+                                                <label for="panno">PAN No*</label>
+                                                <input type="text" class="form-control" id="panno" placeholder="Enter PAN No" value="<%= panNo %>" name="panNo" required>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-12 col-lg-6 col-xl-6">
+                                            <div class="form-group">
+                                                <label for="phoneno">Phone No*</label>
+                                                <input type="text" class="form-control" id="phoneno" placeholder="Enter Phone No" value="<%= phoneNo %>" name="phoneNo" required>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-12 col-lg-6 col-xl-6">
+                                            <div class="form-group">
+                                                <label for="Categories">Categories*</label>
+                                                <select class="form-control" multiple id="categories" name="categories[]">
+                                                    <option value="0">All Categories</option>
+                                                    <% if (categories && categories.length > 0) { %>
+                                                        <% categories.forEach(cat => { %>
+                                                        <option value="<%= cat.id %>"><%= cat.category_name %></option>
+                                                        <% }) %>
+                                                    <% } %>
+                                                    </select>
+                                            </div>
+                                        </div>
+
+                                        <div class="p-2 mt-3">
+                                            <button class="btn btn-primary btn-block waves-effect waves-light" type="submit">Register</button>
+                                        </div>
+                                    </div>
+                                    <div class="mt-10 text-center">
+                                    <a href="/users/login" class="text-muted"
+                                        ><i class="mdi mdi-lock mr-1"></i> Already registered?
+                                        Login</a
+                                    >
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+ <%- include('../partials/footer'); %>
+</html>
