@@ -27,6 +27,20 @@ class CategoryModel {
       throw error;
     }
   }
+  static async getAll(conn) {
+    try {
+      const dataSql = `
+        SELECT id, category_name, status
+        FROM categories
+        WHERE status = ?
+      `;
+      // active categories
+      const [categories] = await conn.query(dataSql, [1]);
+      return categories;
+    } catch (error) {
+      throw error;
+    }
+  }
   static async getCategoryDetailsByID(conn, id) {
     try {
       const dataSql = `
@@ -65,7 +79,7 @@ class CategoryModel {
       ]);
       return result;
     } catch (error) {
-        throw error;
+      throw error;
     }
   }
   static async toggleStatus(data, conn) {

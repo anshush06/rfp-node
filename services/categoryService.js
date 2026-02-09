@@ -11,6 +11,16 @@ const getAllCategories = async (page, limit) => {
     throw error;
   }
 };
+const getAll = async () => {
+  try {
+    const connection = await getDBConnection();
+    const result = await CategoryModel.getAll(connection);
+    connection.release();
+    return result;
+  } catch (error) {
+    throw error;
+  }
+};
 const getCategoryDetailsByID = async (id) => {
   try {
     const connection = await getDBConnection();
@@ -52,4 +62,4 @@ const toggleStatus = async (data) => {
   }
 };
 
-module.exports = { getAllCategories, addCategory, toggleStatus, getCategoryDetailsByID, updateCategory};
+module.exports = { getAllCategories, addCategory, toggleStatus, getCategoryDetailsByID, updateCategory, getAll};

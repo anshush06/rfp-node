@@ -9,6 +9,15 @@ const getAllCategories = async (req, res) => {
     res.status(500).json({ error: error.message });
   }
 };
+// to get only active categories without any pagination
+const getAll = async (req, res) => {
+  try {
+    const categories = await categoryService.getAll(req.conn);
+    res.json(categories);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+};
 
 const showCategories = async (req, res, next) => {
   try {
@@ -154,4 +163,4 @@ const handleToggleStatus = async (req, res, next) => {
   }
 };
 
-module.exports = { getAllCategories, showCategories, showAddCategory, handleAddCategory, handleToggleStatus, showEditCategory, handleEditCategory};
+module.exports = { getAllCategories, showCategories, showAddCategory, handleAddCategory, handleToggleStatus, showEditCategory, handleEditCategory, getAll};

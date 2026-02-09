@@ -11,8 +11,4 @@ router.get('/dashboard', isAuthenticated,function (req, res) {
   res.render('pages/dashboard');
 });
 
-router.get('/rfps', isAuthenticated,function (req, res, next) {
-  res.render('pages/rfps');
-});
-
 module.exports = router;
