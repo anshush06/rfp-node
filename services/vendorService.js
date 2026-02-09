@@ -1,10 +1,11 @@
 const CategoryModel = require("../models/CategoryModel");
+const VendorModel = require("../models/VendorModel");
 const { getDBConnection } = require("./databaseService");
 
-const getAllCategories = async (page, limit) => {
+const getAllVendors = async (page, limit) => {
   try {
     const connection = await getDBConnection();
-    const result = await CategoryModel.getAllCategories(connection, page, limit);
+    const result = await VendorModel.getAllVendors(connection, page, limit);
     connection.release();
     return result;
   } catch (error) {
@@ -52,4 +53,4 @@ const toggleStatus = async (data) => {
   }
 };
 
-module.exports = { getAllCategories, addCategory, toggleStatus, getCategoryDetailsByID, updateCategory};
+module.exports = { getAllVendors, addCategory, toggleStatus, getCategoryDetailsByID, updateCategory};

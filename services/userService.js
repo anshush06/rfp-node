@@ -31,6 +31,10 @@ const loginUser = async (email, password) => {
     if (!isMatch) {
       throw new Error("Invalid password");
     }
+    // if user is inactive
+    if(!user.status){
+      throw new Error("User is inactive. Please contact admin to activate your account");
+    }
     // Add role information
     user.role = isVendor ? 'vendor' : 'admin';
     return user;
