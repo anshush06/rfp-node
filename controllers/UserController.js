@@ -45,10 +45,10 @@ const registerAsAdmin = async (req, res) => {
 const showVendorRegistrationForm = async (req, res) => {
   try {
     // fetch all the categores from the database
-    const categories = await categoryService.getAllCategories();
-    res.render('auth/registerVendor', {firstName: '', lastName: '', email: '', revenue: '', noOfEmployees: '',gstNo: '',panNo: '',phoneNo: '', error: req.query.msg || '', categories });
+    const categories = await categoryService.getAll();
+    res.render('auth/registerVendor', { firstName: '', lastName: '', email: '', revenue: '', noOfEmployees: '', gstNo: '', panNo: '', phoneNo: '', error: req.query.msg || '', categories });
   } catch (error) {
-    res.render('auth/registerVendor', {firstName: '', lastName: '', email: '', revenue: '', noOfEmployees: '',gstNo: '',panNo: '',phoneNo: '', error: error.message || '', categories: [] });
+    res.render('auth/registerVendor', { firstName: '', lastName: '', email: '', revenue: '', noOfEmployees: '', gstNo: '', panNo: '', phoneNo: '', error: error.message || '', categories: [] });
   }
 }
 
@@ -61,7 +61,7 @@ const registerAsVendor = async (req, res) => {
     res.render('auth/registerVendor', {
       error: error.message,
       ...req.body,
-      categories: await categoryService.getAllCategories()
+      categories: await categoryService.getAll()
     });
   }
 };

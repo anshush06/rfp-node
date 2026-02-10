@@ -1,8 +1,9 @@
 var express = require('express');
 const { isAuthenticated, isGuest } = require('../middleware/isAuthenticated');
-const { showEditCategory, showAddCategory, showCategories, handleAddCategory, handleToggleStatus, handleEditCategory } = require('../controllers/CategoryController');
+const { showEditCategory, showAddCategory, showCategories, handleAddCategory, handleToggleStatus, handleEditCategory, getAll } = require('../controllers/CategoryController');
 var router = express.Router();
 
+router.get('/active', getAll);
 router.get('/', isAuthenticated, showCategories);
 router.get('/add', isAuthenticated, showAddCategory);
 router.get('/edit/:id', isAuthenticated, showEditCategory);
