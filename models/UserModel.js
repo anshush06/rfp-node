@@ -9,6 +9,15 @@ class UserModel {
       throw error;
     }
   }
+  static async getUserByID(id, conn) {
+    try {
+      const sql = `SELECT * FROM users WHERE id = ?`;
+      const [rows] = await conn.execute(sql, [id]);
+      return rows.length ? rows[0] : null;
+    } catch (error) {
+      throw error;
+    }
+  }
 
   static async insertUser(data, conn) {
     try {

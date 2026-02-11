@@ -23,28 +23,12 @@
                     <li class="breadcrumb-item">
                       <a href="javascript: void(0);">Home</a>
                     </li>
-                    <li class="breadcrumb-item active">RFP</li>
+                    <li class="breadcrumb-item active">RFP Quotes</li>
                   </ol>
                 </div>
               </div>
             </div>
-          </div>
-          <div class="row">
-            <div class="col-12">
-              <div
-                class="page-title-box d-flex align-items-center justify-content-between"
-              >
-                <h4 class="mb-0 font-size-18"></h4>
-                <div class="page-title-right">
-                  <ol class="breadcrumb m-0">
-                    <div class="headerButtons">
-                    <a href="/rfps/category" class="btn btn-sm btn-success"
-                    ><i class="mdi mdi-plus"></i>Add RFP</a>
-                  </ol>
-                </div>
-              </div>
-            </div>
-          </div>
+        </div>
           <!-- end page title -->
 
           <!-- end row -->
@@ -72,7 +56,7 @@
                   <div class="TableHeader">
                     <div class="row">
                       <div class="col-lg-3">
-                        <h4 class="card-title">RFP</h4>
+                        <h4 class="card-title">RFP Quotes</h4>
                       </div>
                     </div>
                   </div>
@@ -109,27 +93,45 @@
                                             <span class="badge badge-pill badge-danger">Closed</span>
                                         <% } %>
                                     </td>
-
                                     <td>
-                                      <div class="row container space-between">
+                                    <div class="d-flex align-items-center">
+
                                         <% if (rfp.status === 1) { %>
-                                            <!-- Close RFP -->
-                                            <a
-                                                href="/rfps/toggle-status/<%= rfp.id %>/0"
-                                                class="text-danger"
-                                                title="Close RFP"
-                                            >
-                                                <i class="mdi mdi-close"></i>
-                                            </a>
+
+                                            <% if (rfp.hasApplied) { %>
+                                                <!-- Applied Badge -->
+                                                <span class="badge badge-pill badge-info mr-2">
+                                                    Applied
+                                                </span>
+
+                                                <!-- Eye Icon -->
+                                                <a
+                                                    href="/rfps/view/<%= rfp.id %>"
+                                                    class="text-primary"
+                                                    title="View RFP Quotes"
+                                                >
+                                                    <i class="mdi mdi-eye" style="font-size: 20px;"></i>
+                                                </a>
+
+                                            <% } else { %>
+                                                <!-- Apply Icon -->
+                                                <a
+                                                    href="/vendors/add/<%= rfp.id %>"
+                                                    class="text-primary"
+                                                    title="Apply Quote"
+                                                >
+                                                    <i class="mdi mdi-plus-circle" style="font-size: 20px;"></i>
+                                                </a>
+                                            <% } %>
+
+                                        <% } else { %>
+                                            <!-- Closed -->
+                                            <span class="badge badge-pill badge-secondary">
+                                                Closed
+                                            </span>
                                         <% } %>
-                                        <a
-                                          href="/rfps/view/<%= rfp.id %>"
-                                          class="text-primary"
-                                          title="View RFP Quotes"
-                                          >
-                                            <i style="padding-left: 17px;" class="mdi mdi-eye" style="font-size: 20px;"></i>
-                                        </a>
-                                      </div>
+
+                                    </div>
                                     </td>
                                 </tr>
                             <% }) %>

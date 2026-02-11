@@ -23,28 +23,12 @@
                     <li class="breadcrumb-item">
                       <a href="javascript: void(0);">Home</a>
                     </li>
-                    <li class="breadcrumb-item active">RFP</li>
+                    <li class="breadcrumb-item active">RFP Quotes</li>
                   </ol>
                 </div>
               </div>
             </div>
-          </div>
-          <div class="row">
-            <div class="col-12">
-              <div
-                class="page-title-box d-flex align-items-center justify-content-between"
-              >
-                <h4 class="mb-0 font-size-18"></h4>
-                <div class="page-title-right">
-                  <ol class="breadcrumb m-0">
-                    <div class="headerButtons">
-                    <a href="/rfps/category" class="btn btn-sm btn-success"
-                    ><i class="mdi mdi-plus"></i>Add RFP</a>
-                  </ol>
-                </div>
-              </div>
-            </div>
-          </div>
+        </div>
           <!-- end page title -->
 
           <!-- end row -->
@@ -72,7 +56,7 @@
                   <div class="TableHeader">
                     <div class="row">
                       <div class="col-lg-3">
-                        <h4 class="card-title">RFP</h4>
+                        <h4 class="card-title">RFP Quotes</h4>
                       </div>
                     </div>
                   </div>
@@ -84,53 +68,26 @@
                       <thead>
                         <tr>
                             <th>RFP No.</th>
-                            <th>RFP Title</th>
-                            <th>RFP Last Date</th>
-                            <th>Min Amount</th>
-                            <th>Max Amount</th>
-                            <th>Status</th>
-                            <th>Action</th>
+                            <th>Vendor Name</th>
+                            <th>Item Price</th>
+                            <th>Quantity</th>
+                            <th>Total Cost</th>
+                            <th>Date Added</th>
                         </tr>
                     </thead>
                     <tbody>
-                        <% if (rfps && rfps.length > 0) { %>
-                            <% rfps.forEach((rfp, index) => { %>
+                        <% if (quotes && quotes.length > 0) { %>
+                            <% quotes.forEach((rfp, index) => { %>
                                 <tr>
                                     <td><%= rfp.rfp_number %></td>
-                                    <td><%= rfp.name %></td>
-                                    <td><%= new Date(rfp.lastdate).toISOString().slice(0, 10) %></td>
-                                    <td><%= rfp.minprice %></td>
-                                    <td><%= rfp.maxprice %></td>
-
-                                    <td>
-                                        <% if (rfp.status === 1) { %>
-                                            <span class="badge badge-pill badge-success">Open</span>
-                                        <% } else { %>
-                                            <span class="badge badge-pill badge-danger">Closed</span>
-                                        <% } %>
+                                   <td>
+                                    <%= rfp.firstname ? rfp.firstname : 'Self Created' %>
+                                    <%= rfp.lastname ? rfp.lastname : '' %>
                                     </td>
-
-                                    <td>
-                                      <div class="row container space-between">
-                                        <% if (rfp.status === 1) { %>
-                                            <!-- Close RFP -->
-                                            <a
-                                                href="/rfps/toggle-status/<%= rfp.id %>/0"
-                                                class="text-danger"
-                                                title="Close RFP"
-                                            >
-                                                <i class="mdi mdi-close"></i>
-                                            </a>
-                                        <% } %>
-                                        <a
-                                          href="/rfps/view/<%= rfp.id %>"
-                                          class="text-primary"
-                                          title="View RFP Quotes"
-                                          >
-                                            <i style="padding-left: 17px;" class="mdi mdi-eye" style="font-size: 20px;"></i>
-                                        </a>
-                                      </div>
-                                    </td>
+                                    <td><%= rfp.itemprice %></td>
+                                    <td><%= rfp.quantity %></td>
+                                    <td><%= rfp.totalcost %></td>
+                                    <td><%= new Date(rfp.date_added).toISOString().slice(0, 10) %></td>
                                 </tr>
                             <% }) %>
                         <% } else { %>
@@ -145,7 +102,7 @@
                     <div class="col-sm-12 col-md-5">
                         <%
                         const start = (currentPage - 1) * limit + 1;
-                        const end = Math.min(currentPage * limit, totalRfps);
+                        const end = Math.min(currentPage * limit, totalQuotes);
                         %>
                         <div
                         class="dataTables_info"
@@ -153,7 +110,7 @@
                         role="status"
                         aria-live="polite"
                         >
-                        Showing <%= start %> to <%= end %> of <%= totalRfps %> entries
+                        Showing <%= start %> to <%= end %> of <%= totalQuotes %> entries
                         </div>
                     </div>
 

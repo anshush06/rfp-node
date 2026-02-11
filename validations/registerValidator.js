@@ -9,7 +9,6 @@ const validateRegisterPayload = (data) => {
   if (!emailRegex.test(email)) {
     throw new Error("Invalid email format");
   }
-  const passwordRegex = /^(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*#?&]).{5,}$/;
   if (!passwordRegex.test(password)) {
     throw new Error("Password must be at least 6 characters long and include letters, numbers, and special characters");
   }

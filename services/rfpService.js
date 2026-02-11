@@ -1,4 +1,5 @@
 const RfpModel = require("../models/RfpModel");
+const RfpQuoteModel = require("../models/RfpQuoteModel");
 const RfpVendorMapping = require("../models/RfpVendorMapping");
 const VendorModel = require("../models/VendorModel");
 const { getDBConnection } = require("./databaseService");
@@ -17,6 +18,18 @@ const getRfpsByID = async (id, page, limit) => {
   }
 };
 
+const getRfpQuotesByID = async (id, page, limit, vendorId = null) => {
+  let connection;
+  try {
+    connection = await getDBConnection();
+    const result = await RfpQuoteModel.getRfpQuotesByID(connection, id, page, limit, vendorId);
+    return result;
+  } catch (error) {
+    throw error;
+  } finally {
+    if (connection) connection.release();
+  }
+};
 const addRFP = async (data) => {
   let connection;
   try {
@@ -34,7 +47,7 @@ const addRFP = async (data) => {
     await connection.commit();
 
     // Send emails to assigned vendors
-    if (data.vendors && Array.isArray(data.vendors) && data.vendors.length > 0) {
+    if (data.vendors && data.vendors.length > 0) {
       const assignedVendors = await VendorModel.getVendorsByIDs(data.vendors, connection);
       for (const vendor of assignedVendors) {
         await sendMail(
@@ -67,4 +80,4 @@ const toggleStatus = async (data) => {
   }
 };
 
-module.exports = { addRFP, toggleStatus, getRfpsByID };
+module.exports = { addRFP, toggleStatus, getRfpsByID, getRfpQuotesByID};

@@ -1,3 +1,4 @@
+const RfpModel = require('../models/RfpModel');
 const categoryService = require('../services/categoryService');
 const rfpService = require('../services/rfpService');
 const { getVendorsByCategory } = require('../services/VendorCategoryService');
@@ -60,6 +61,35 @@ const handleCategorySelection = async (req, res, next) => {
   }
 };
 
+const showRFPQuotes = async (req, res, next) => {
+  try {
+    const { id } = req.params;
+    if (!id) {
+      throw new Error("RFP ID Missing");
+    }
+    const page = parseInt(req.query.page) || 1;
+    const limit = process.env.PAGINATION_LIMIT || 10;
+    // check if the current user is vendor user then we will show the rfp quotes for that vendor only
+    const isAdmin = req.user.role === "admin";
+    const {
+      quotes,
+      totalPages,
+      currentPage,
+      totalQuotes
+    } = await rfpService.getRfpQuotesByID(id, page, limit, isAdmin ? null : req.user.id);
+    res.render('pages/rfpQuoteList', {
+      quotes,
+      totalPages,
+      currentPage,
+      totalQuotes,
+      limit
+    });
+  } catch (error) {
+    req.flash('error', 'Failed to load RFPs: ' + error.message);
+    res.redirect('/dashboard');
+  }
+};
+
 const showAddRFP = async (req, res, next) => {
   res.redirect('/rfps/category');
 };
@@ -73,10 +103,13 @@ const handleAddRFP = async (req, res, next) => {
     }
 
     // Normalize vendors field for validation and service
-    if (data['vendors[]'] && !data.vendors) {
-      data.vendors = data['vendors[]'];
-    }
-
+    let v = data.vendors || data['vendors[]'] || [];
+    // Always convert to array
+    let vendorIds = Array.isArray(v) ? v : [v];
+    // Remove empty values
+    vendorIds = vendorIds.filter(id => id);
+    // Assign back
+    data.vendors = vendorIds;
     validateRFPPayload(data);
     data.created_by = req.user.id;
     const response = await rfpService.addRFP(data);
@@ -126,4 +159,4 @@ const handleToggleStatus = async (req, res, next) => {
   }
 };
 
-module.exports = { showRfpList, showAddRFP, handleAddRFP, handleToggleStatus, showCategorySelection, handleCategorySelection };
+module.exports = { showRfpList, showAddRFP, handleAddRFP, handleToggleStatus, showCategorySelection, handleCategorySelection, showRFPQuotes};
