@@ -1,8 +1,19 @@
 class VendorCategoryMappingModel {
 
-  static async getVendorsByCategory(vendorID, conn) {
-    const sql = `SELECT id, category_name FROM vendors_categories_mapping WHERE vendor_id = ?`;
-    const [rows] = await conn.execute(sql, [vendorID]);
+  static async getVendorsByCategory(categoryId, conn) {
+    const sql = `
+      SELECT 
+        v.id,
+        v.firstname,
+        v.lastname
+      FROM vendors v
+      INNER JOIN vendors_categories_mapping vcm 
+        ON vcm.vendor_id = v.id
+      WHERE vcm.category_id = ?
+        AND v.status = 1
+    `;
+
+    const [rows] = await conn.execute(sql, [categoryId]);
     return rows;
   }
 

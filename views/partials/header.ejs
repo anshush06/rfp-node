@@ -7,12 +7,12 @@
                 <!-- LOGO -->
                 <div class="navbar-brand-box">
 
-                    <a href="index.html" class="logo logo-light">
+                    <a href="" class="logo logo-light">
                         <span class="logo-sm">
-                            <img src="assets/images/velocity_logo.png" alt="" height="40">
+                            <img src="/assets/images/velocity_logo.png" alt="" height="40">
                         </span>
                         <span class="logo-lg">
-                            <img src="assets/images/velocity_logo.png" alt="" height="">
+                            <img src="/assets/images/velocity_logo.png" alt="" height="">
                         </span>
                     </a>
                 </div>
@@ -20,7 +20,13 @@
 
             <div class="d-flex pr-2">
                 <div class="dropdown d-inline-block">
-                    <span class="d-none d-xl-inline-block ml-1" key="t-henry">Welcome Henry</span>&nbsp;&nbsp;
+                    <span class="d-none d-xl-inline-block ml-1" key="t-henry">
+                    Welcome
+                    <% if (user) { %>
+                        <%= user.first_name %>
+                    <% } %>
+                    </span>
+                    &nbsp;&nbsp;
                     <a class="" href="/users/logout">Logout</span></a>
                 </div>
             </div>

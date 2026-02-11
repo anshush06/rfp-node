@@ -1,10 +1,61 @@
 class CategoryModel {
 
-  static async getAllCategories(conn) {
-    const sql = `SELECT id, category_name FROM categories`;
-    const [rows] = await conn.execute(sql);
-    return rows;
+  static async getAllCategories(conn, page, limit) {
+    try {
+      page = Number(page) || 1;
+      limit = Number(limit) || 10;
+      const offset = (page - 1) * limit;
+      const dataSql = `
+        SELECT id, category_name, status
+        FROM categories
+        ORDER BY date_modified DESC
+        LIMIT ? OFFSET ?
+      `;
+      const [categories] = await conn.query(dataSql, [limit, offset]);
+      const countSql = `
+        SELECT COUNT(*) AS total
+        FROM categories
+      `;
+      const [[{ total }]] = await conn.query(countSql);
+      return {
+        categories,
+        totalPages: Math.ceil(total / limit),
+        currentPage: page,
+        totalCategories: total
+      };
+    } catch (error) {
+      throw error;
+    }
   }
+  static async getAll(conn) {
+    try {
+      const dataSql = `
+        SELECT id, category_name, status
+        FROM categories
+        WHERE status = ?
+      `;
+      // active categories
+      const [categories] = await conn.query(dataSql, [1]);
+      return categories;
+    } catch (error) {
+      throw error;
+    }
+  }
+  static async getCategoryDetailsByID(conn, id) {
+    try {
+      const dataSql = `
+        SELECT id, category_name, status
+        FROM categories
+        WHERE id = ?
+        LIMIT 1
+      `;
+      const [rows] = await conn.query(dataSql, [id]);
+      return rows[0] || null;
+    } catch (error) {
+      throw error;
+    }
+  }
+
 
   static async insertCategory(data, conn) {
     const sql = `
@@ -15,6 +66,36 @@ class CategoryModel {
       data.category_name,
     ]);
     return result.insertId;
+  }
+  static async updateCategory(id, data, conn) {
+    try {
+      const sql = `
+        UPDATE categories SET category_name
+        = (?) WHERE id = (?)
+      `;
+      const [result] = await conn.execute(sql, [
+        data.category_name,
+        id
+      ]);
+      return result;
+    } catch (error) {
+      throw error;
+    }
+  }
+  static async toggleStatus(data, conn) {
+    try {
+      const sql = `
+        UPDATE categories SET status
+        = (?) WHERE id = (?)
+      `;
+      const [result] = await conn.execute(sql, [
+        data.status,
+        data.id
+      ]);
+      return result;
+    } catch (error) {
+      throw error;
+    }
   }
 }
 

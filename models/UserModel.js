@@ -9,6 +9,15 @@ class UserModel {
       throw error;
     }
   }
+  static async getUserByID(id, conn) {
+    try {
+      const sql = `SELECT * FROM users WHERE id = ?`;
+      const [rows] = await conn.execute(sql, [id]);
+      return rows.length ? rows[0] : null;
+    } catch (error) {
+      throw error;
+    }
+  }
 
   static async insertUser(data, conn) {
     try {
@@ -23,6 +32,18 @@ class UserModel {
         data.password
       ]);
       return result.insertId;
+    } catch (error) {
+      throw error;
+    }
+  }
+  static async updatePassword({ userId, role, password }, conn) {
+    try {
+      const table = role === 'vendor' ? 'vendors' : 'users';
+      const sql = `UPDATE ${table} SET password = ? WHERE id = ?`;
+      const [result] = await conn.execute(sql, [password, userId]);
+      if (result.affectedRows === 0) {
+        throw new Error("Password update failed");
+      }
     } catch (error) {
       throw error;
     }

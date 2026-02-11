@@ -4,37 +4,50 @@
     <div id="sidebar-menu">
       <!-- Left Menu Start -->
       <ul class="metismenu list-unstyled" id="side-menu">
+
+        <!-- Dashboard: everyone -->
         <li>
           <a href="/dashboard" class="waves-effect">
             <i class="mdi mdi-file-document-box-outline"></i>
             <span>Dashboard</span>
           </a>
         </li>
+        <!-- Vendors: admin + manager -->
+        <% if (user && user.role === 'admin') { %>
         <li>
           <a href="/vendors" class="waves-effect">
             <i class="mdi mdi-receipt"></i>
             <span>Vendors</span>
           </a>
         </li>
+        <% } %>
+        <!-- RFPs: all logged-in users -->
+        <% if (user && user.role === 'admin') { %>
         <li>
           <a href="/rfps" class="waves-effect">
             <i class="mdi mdi-flip-vertical"></i>
             <span>RFP Lists</span>
           </a>
         </li>
+        <% } %>
+        <!-- RFPs: all logged-in users -->
+        <% if (user && user.role === 'vendor') { %>
         <li>
-          <a href="/users" class="waves-effect">
-            <i class="mdi mdi-apps"></i>
-            <span>User Management</span>
+          <a href="/vendors/rfp-quotes" class="waves-effect">
+            <i class="mdi mdi-flip-vertical"></i>
+            <span>RFP Quotes</span>
           </a>
         </li>
-
+        <% } %>
+        <!-- Categories: admin only -->
+        <% if (user && user.role === 'admin') { %>
         <li>
           <a href="/categories" class="waves-effect">
             <i class="mdi mdi-weather-night"></i>
             <span>Categories</span>
           </a>
         </li>
+        <% } %>
       </ul>
     </div>
     <!-- Sidebar -->

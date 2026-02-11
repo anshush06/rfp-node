@@ -9,8 +9,6 @@ const validateRegisterPayload = (data) => {
   if (!emailRegex.test(email)) {
     throw new Error("Invalid email format");
   }
-
-  const passwordRegex = /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&]).{6,}$/;
   if (!passwordRegex.test(password)) {
     throw new Error("Password must be at least 6 characters long and include letters, numbers, and special characters");
   }
@@ -35,9 +33,9 @@ const validateRegisterPayloadForVendor = (data) => {
   if (!emailRegex.test(email)) {
     throw new Error("Invalid email format");
   }
-  const passwordRegex = /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&]).{6,}$/;
+  const passwordRegex = /^(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*#?&]).{5,}$/;
   if (!passwordRegex.test(password)) {
-    throw new Error("Password must be at least 6 characters long and include letters, numbers, and special characters");
+    throw new Error("Password must be at least 5 characters long and include letters, numbers, and special characters");
   }
   if (!/^[0-9]{10}$/.test(phoneNo)) {
     throw new Error("Invalid phone number");
