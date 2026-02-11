@@ -2,64 +2,76 @@ const CategoryModel = require("../models/CategoryModel");
 const { getDBConnection } = require("./databaseService");
 
 const getAllCategories = async (page, limit) => {
+  let connection;
   try {
-    const connection = await getDBConnection();
+    connection = await getDBConnection();
     const result = await CategoryModel.getAllCategories(connection, page, limit);
-    connection.release();
     return result;
   } catch (error) {
     throw error;
+  } finally {
+    if (connection) connection.release();
   }
 };
 const getAll = async () => {
+  let connection;
   try {
-    const connection = await getDBConnection();
+    connection = await getDBConnection();
     const result = await CategoryModel.getAll(connection);
-    connection.release();
     return result;
   } catch (error) {
     throw error;
+  } finally {
+    if (connection) connection.release();
   }
 };
 const getCategoryDetailsByID = async (id) => {
+  let connection;
   try {
-    const connection = await getDBConnection();
+    connection = await getDBConnection();
     const result = await CategoryModel.getCategoryDetailsByID(connection, id);
-    connection.release();
     return result;
   } catch (error) {
     throw error;
+  } finally {
+    if (connection) connection.release();
   }
 };
 const addCategory = async (data) => {
+  let connection;
   try {
-    const connection = await getDBConnection();
+    connection = await getDBConnection();
     const result = await CategoryModel.insertCategory(data, connection);
-    connection.release();
     return result;
   } catch (error) {
     throw error;
+  } finally {
+    if (connection) connection.release();
   }
 };
 const updateCategory = async (id, data) => {
+  let connection;
   try {
-    const connection = await getDBConnection();
+    connection = await getDBConnection();
     const result = await CategoryModel.updateCategory(id, data, connection);
-    connection.release();
     return result;
   } catch (error) {
     throw error;
+  } finally {
+    if (connection) connection.release();
   }
 };
 const toggleStatus = async (data) => {
+  let connection;
   try {
-    const connection = await getDBConnection();
+    connection = await getDBConnection();
     const result = await CategoryModel.toggleStatus(data, connection);
-    connection.release();
     return result;
   } catch (error) {
     throw error;
+  } finally {
+    if (connection) connection.release();
   }
 };
 
-module.exports = { getAllCategories, addCategory, toggleStatus, getCategoryDetailsByID, updateCategory, getAll};
+module.exports = { getAllCategories, addCategory, toggleStatus, getCategoryDetailsByID, updateCategory, getAll };

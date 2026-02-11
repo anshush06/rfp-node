@@ -23,7 +23,8 @@ const showRfpList = async (req, res, next) => {
       limit
     });
   } catch (error) {
-    next(error);
+    req.flash('error', 'Failed to load RFPs: ' + error.message);
+    res.redirect('/dashboard');
   }
 };
 

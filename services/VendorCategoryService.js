@@ -2,13 +2,15 @@ const VendorCategoryMapping = require("../models/VendorCategoryMapping");
 const { getDBConnection } = require("./databaseService");
 
 const getVendorsByCategory = async (id) => {
+  let connection;
   try {
-    const connection = await getDBConnection();
+    connection = await getDBConnection();
     const result = await VendorCategoryMapping.getVendorsByCategory(id, connection);
-    connection.release();
     return result;
   } catch (error) {
     throw error;
+  } finally {
+    if (connection) connection.release();
   }
 };
 

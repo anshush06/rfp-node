@@ -30,7 +30,7 @@
                 >
                 <div class="p-4">
                   <form
-                    class="form-horizontal"
+                    class="validateform form-horizontal"
                     action="/users/register-admin"
                     method="post"
                   >
@@ -44,7 +44,7 @@
                             id="firstname"
                             placeholder="Enter Firstname"
                             name="firstName"
-                            required
+                            data-rule-requiredMin2Max40="true"
                             value="<%= firstName %>"
                           />
                         </div>
@@ -58,7 +58,7 @@
                             id="lastname"
                             placeholder="Enter Lastname"
                             name="lastName"
-                            required
+                            data-rule-requiredMin2Max40="true"
                             value="<%= lastName %>"
                           />
                         </div>
@@ -72,7 +72,7 @@
                             id="email"
                             placeholder="Enter Email"
                             name="email"
-                            required
+                            data-rule-email="true"
                             value="<%= email %>"
                           />
                         </div>
@@ -87,7 +87,7 @@
                             id="password"
                             placeholder="Enter Password"
                             name="password"
-                            required
+                            data-rule-passwd="true"
                           />
                         </div>
                       </div>
@@ -100,7 +100,7 @@
                             id="confirmpassword"
                             placeholder="Enter Confirm Password"
                             name="confirm_password"
-                            required
+                            data-rule-confirmPasswd="true"
                           />
                         </div>
                       </div>

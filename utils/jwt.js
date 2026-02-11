@@ -9,6 +9,7 @@ const generateToken = (user) => {
         }
         return null;
     } catch (error) {
+        return null;
     }
 }
 

@@ -51,74 +51,67 @@
                         </div>
                         <% } %>
                           <div class="p-2">
-                            <form class="form-horizontal" action="/rfps/add" method="post">
+                            <form class="validateform form-horizontal" action="/rfps/add" method="post">
                               <input type="hidden" class="form-control" id="category_id" name="category_id"
                                 placeholder="Enter item name" value="<%= category_id || '' %>">
                               <div class="row">
-
                                 <!-- Item Name -->
                                 <div class="col-md-12 col-lg-6 col-xl-6">
                                   <div class="form-group">
                                     <label for="item_name">Item Name <span class="text-danger">*</span></label>
                                     <input type="text" class="form-control" id="item_name" name="item_name"
-                                      placeholder="Enter item name" value="<%= rfp?.item_name || '' %>" required>
+                                      placeholder="Enter item name" value="<%= rfp?.item_name || '' %>" data-rule-requiredMin2Max100="true">
                                   </div>
                                 </div>
-
                                 <!-- Item Description -->
                                 <div class="col-md-12 col-lg-6 col-xl-6">
                                   <div class="form-group">
                                     <label for="description">Item Description <span class="text-danger">*</span></label>
                                     <input type="text" class="form-control" id="description" name="item_description"
                                       placeholder="Enter description" value="<%= rfp?.item_description || '' %>"
-                                      required>
+                                      data-rule-requiredMin2Max255="true">
                                   </div>
                                 </div>
-
                                 <!-- Quantity -->
                                 <div class="col-md-12">
                                   <div class="form-group">
                                     <label for="quantity">Quantity <span class="text-danger">*</span></label>
                                     <input type="number" class="form-control" id="quantity" name="quantity"
-                                      placeholder="Enter quantity" value="<%= rfp?.quantity || '' %>" min="1" required>
+                                      placeholder="Enter quantity" value="<%= rfp?.quantity || '' %>" min="1" data-rule-mandatory="true">
                                   </div>
                                 </div>
-
                                 <!-- Last Date -->
                                 <div class="col-md-12 col-lg-6 col-xl-6">
                                   <div class="form-group">
                                     <label for="lastdate">Last Date <span class="text-danger">*</span></label>
                                     <input type="date" class="form-control" id="lastdate" name="lastdate"
                                       value="<%= rfp?.lastdate ? new Date(rfp.lastdate).toISOString().split('T')[0] : '' %>"
-                                      min="<%= new Date().toISOString().split('T')[0] %>" required>
+                                      min="<%= new Date().toISOString().split('T')[0] %>" data-rule-mandatory="true">
                                   </div>
                                 </div>
-
                                 <!-- Minimum Price -->
                                 <div class="col-md-12 col-lg-6 col-xl-6">
                                   <div class="form-group">
                                     <label for="minprice">Minimum Price <span class="text-danger">*</span></label>
                                     <input type="number" class="form-control" id="minprice" name="minprice"
                                       placeholder="Enter minimum price" value="<%= rfp?.minprice || '' %>" min="0"
-                                      step="0.01" required>
+                                      step="0.01" data-rule-mandatory="true">
                                   </div>
                                 </div>
-
                                 <!-- Maximum Price -->
                                 <div class="col-md-12 col-lg-6 col-xl-6">
                                   <div class="form-group">
                                     <label for="maxprice">Maximum Price <span class="text-danger">*</span></label>
                                     <input type="number" class="form-control" id="maxprice" name="maxprice"
                                       placeholder="Enter maximum price" value="<%= rfp?.maxprice || '' %>" min="0"
-                                      step="0.01" required>
+                                      step="0.01" data-rule-mandatory="true">
                                   </div>
                                 </div>
-
                                 <!-- Vendors -->
                                 <div class="col-md-12 col-lg-6 col-xl-6">
                                   <div class="form-group">
                                     <label for="vendor_id">Vendors <span class="text-danger">*</span></label>
-                                    <select class="form-control" id="vendor_id" name="vendors[]" multiple required>
+                                    <select class="form-control" id="vendor_id" name="vendors[]" multiple data-rule-mandatory="true">
                                       <option value="">Select Vendor</option>
 
                                       <% if (vendors && vendors.length> 0) { %>

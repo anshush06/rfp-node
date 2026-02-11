@@ -71,7 +71,7 @@ const registerAsAdmin = async (data) => {
     await connection.rollback();
     throw error;
   } finally {
-    connection.release();
+    if (connection) connection.release();
   }
 };
 
@@ -121,7 +121,7 @@ const registerAsVendor = async (data) => {
     await connection.rollback();
     throw error;
   } finally {
-    connection.release();
+    if (connection) connection.release();
   }
 };
 
@@ -153,7 +153,7 @@ const handleForgotPassword = async (email) => {
       RFP System Team`
     );
   } finally {
-    conn.release();
+    if (conn) conn.release();
   }
 };
 
@@ -179,7 +179,7 @@ const handleResetPassword = async (token, password) => {
     }, conn);
     await ResetPasswordTokenModel.markTokenUsed(token, conn);
   } finally {
-    conn.release();
+    if (conn) conn.release();
   }
 };
 

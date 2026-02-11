@@ -8,9 +8,9 @@ class VendorModel {
         SELECT id, firstname, lastname, email, phone_no, status
         FROM vendors
         ORDER BY date_modified DESC
-        LIMIT ${limit} OFFSET ${offset}
+        LIMIT ? OFFSET ?
       `;
-      const [vendors] = await conn.query(dataSql);
+      const [vendors] = await conn.query(dataSql, [limit, offset]);
       const countSql = `
         SELECT COUNT(*) AS total
         FROM vendors
@@ -22,15 +22,6 @@ class VendorModel {
         currentPage: page,
         totalVendors: total
       };
-    } catch (error) {
-      throw error;
-    }
-  }
-  static async getUserByEmail(email, conn) {
-    try {
-      const sql = `SELECT * FROM vendors WHERE email = ?`;
-      const [rows] = await conn.execute(sql, [email]);
-      return rows.length ? rows[0] : null;
     } catch (error) {
       throw error;
     }
@@ -67,6 +58,28 @@ class VendorModel {
       throw error;
     }
   }
+  static async getVendorByID(id, conn) {
+    try {
+      const sql = `SELECT * FROM vendors WHERE id = ?`;
+      const [rows] = await conn.execute(sql, [id]);
+      return rows.length ? rows[0] : null;
+    } catch (error) {
+      throw error;
+    }
+  }
+
+  static async getVendorsByIDs(ids, conn) {
+    try {
+      if (!ids || ids.length === 0) return [];
+      const placeholders = ids.map(() => '?').join(',');
+      const sql = `SELECT * FROM vendors WHERE id IN (${placeholders})`;
+      const [rows] = await conn.execute(sql, ids);
+      return rows;
+    } catch (error) {
+      throw error;
+    }
+  }
+
   static async toggleStatus(data, conn) {
     try {
       const sql = `

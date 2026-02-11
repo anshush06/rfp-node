@@ -9,9 +9,9 @@ class CategoryModel {
         SELECT id, category_name, status
         FROM categories
         ORDER BY date_modified DESC
-        LIMIT ${limit} OFFSET ${offset}
+        LIMIT ? OFFSET ?
       `;
-      const [categories] = await conn.query(dataSql);
+      const [categories] = await conn.query(dataSql, [limit, offset]);
       const countSql = `
         SELECT COUNT(*) AS total
         FROM categories

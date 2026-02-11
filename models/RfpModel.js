@@ -9,9 +9,9 @@ class RfpModel {
                 FROM rfps
                 WHERE created_by = ?
                 ORDER BY date_modified DESC
-                LIMIT ${limit} OFFSET ${offset}
+                LIMIT ? OFFSET ?
             `;
-      const [rfps] = await conn.query(dataSql, [userId]);
+      const [rfps] = await conn.query(dataSql, [userId, limit, offset]);
       const countSql = `
                 SELECT COUNT(*) AS total
                 FROM rfps

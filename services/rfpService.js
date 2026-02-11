@@ -1,15 +1,19 @@
 const RfpModel = require("../models/RfpModel");
 const RfpVendorMapping = require("../models/RfpVendorMapping");
+const VendorModel = require("../models/VendorModel");
 const { getDBConnection } = require("./databaseService");
+const sendMail = require("./sendMail");
 
 const getRfpsByID = async (id, page, limit) => {
+  let connection;
   try {
-    const connection = await getDBConnection();
+    connection = await getDBConnection();
     const result = await RfpModel.getRfpsByID(connection, id, page, limit);
-    connection.release();
     return result;
   } catch (error) {
     throw error;
+  } finally {
+    if (connection) connection.release();
   }
 };
 
@@ -28,6 +32,19 @@ const addRFP = async (data) => {
     }
 
     await connection.commit();
+
+    // Send emails to assigned vendors
+    if (data.vendors && Array.isArray(data.vendors) && data.vendors.length > 0) {
+      const assignedVendors = await VendorModel.getVendorsByIDs(data.vendors, connection);
+      for (const vendor of assignedVendors) {
+        await sendMail(
+          vendor.email,
+          'New RFP Assigned',
+          `Dear ${vendor.firstname},\n\nA new RFP "${data.item_name}" has been assigned to you. Please log in to the system to view details and submit your quote.\n\nBest regards,\nRFP System Team`
+        );
+      }
+    }
+
     return resultId;
   } catch (error) {
     if (connection) await connection.rollback();
@@ -38,13 +55,15 @@ const addRFP = async (data) => {
 };
 
 const toggleStatus = async (data) => {
+  let connection;
   try {
-    const connection = await getDBConnection();
+    connection = await getDBConnection();
     const result = await RfpModel.toggleStatus(data, connection);
-    connection.release();
     return result;
   } catch (error) {
     throw error;
+  } finally {
+    if (connection) connection.release();
   }
 };
 

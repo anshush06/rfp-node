@@ -19,7 +19,8 @@ const showVendors = async (req, res, next) => {
       limit
     });
   } catch (error) {
-    next(error);
+    req.flash('error', 'Failed to load vendors: ' + error.message);
+    res.redirect('/dashboard');
   }
 };
 const handleToggleStatus = async (req, res, next) => {
@@ -33,10 +34,13 @@ const handleToggleStatus = async (req, res, next) => {
       throw new Error('Invalid vendor id');
     }
     const response = await vendorService.toggleStatus(req.params);
-    if(!response){
+    if (!response) {
       req.flash('error', 'Status Not Updated. Something went wrong');
     }
-    req.flash('success', 'Status Updated Successfully');
+    if (Number(newStatus) === 1) {
+      req.flash('success', 'Status Updated and email sent Successfully');
+    }
+    else{ req.flash('success', 'Status Updated Successfully'); }
     res.redirect('/vendors');
   } catch (error) {
     req.flash('error', error.message);
@@ -44,4 +48,4 @@ const handleToggleStatus = async (req, res, next) => {
   }
 };
 
-module.exports = {showVendors, handleToggleStatus};
+module.exports = { showVendors, handleToggleStatus };

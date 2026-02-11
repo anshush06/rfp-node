@@ -37,7 +37,8 @@ const showCategories = async (req, res, next) => {
       limit
     });
   } catch (error) {
-    next(error);
+    req.flash('error', 'Failed to load categories: ' + error.message);
+    res.redirect('/dashboard');
   }
 };
 const showAddCategory = async (req, res, next) => {
@@ -87,8 +88,8 @@ const showEditCategory = async (req, res, next) => {
 const handleAddCategory = async (req, res, next) => {
   try {
     const data = req.body;
-    if(!data.category_name){
-      throw new Error("Cateogry Name is Required");
+    if (!data.category_name) {
+      throw new Error("Category Name is Required");
     }
     const response = await categoryService.addCategory(data);
     if(!response){
@@ -102,7 +103,7 @@ const handleAddCategory = async (req, res, next) => {
     res.redirect('/categories');
   } catch (error) {
     res.render('pages/addCategory', {
-      category_name: '',
+      category_name: req.body.category_name || '',
       error: error.message,
       edit: false
     });
@@ -134,9 +135,9 @@ const handleEditCategory = async (req, res, next) => {
   } catch (error) {
     req.flash('error', error.message);
     res.render('pages/addCategory', {
-      category_name: '',
+      category_name: req.body.category_name || '',
       error: error.message,
-      edit: false
+      edit: true
     });
   }
 };
@@ -152,7 +153,7 @@ const handleToggleStatus = async (req, res, next) => {
       throw new Error('Invalid category id');
     }
     const response = await categoryService.toggleStatus(req.params);
-    if(!response){
+    if (!response) {
       req.flash('error', 'Status Not Updated. Something went wrong');
     }
     req.flash('success', 'Status Updated Successfully');
@@ -163,4 +164,4 @@ const handleToggleStatus = async (req, res, next) => {
   }
 };
 
-module.exports = { getAllCategories, showCategories, showAddCategory, handleAddCategory, handleToggleStatus, showEditCategory, handleEditCategory, getAll};
+module.exports = { getAllCategories, showCategories, showAddCategory, handleAddCategory, handleToggleStatus, showEditCategory, handleEditCategory, getAll };

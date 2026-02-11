@@ -104,29 +104,13 @@
 
                                     <td>
                                         <% if (rfp.status === 1) { %>
-                                            <span class="badge badge-pill badge-success">Active</span>
+                                            <span class="badge badge-pill badge-success">Open</span>
                                         <% } else { %>
-                                            <span class="badge badge-pill badge-danger">Inactive</span>
+                                            <span class="badge badge-pill badge-danger">Closed</span>
                                         <% } %>
                                     </td>
 
                                     <td>
-                                        <a
-                                            href="/rfps/view/<%= rfp.id %>"
-                                            class="text-info mr-2"
-                                            title="View RFP"
-                                        >
-                                            <i class="mdi mdi-eye"></i>
-                                        </a>
-
-                                        <a
-                                            href="/rfps/edit/<%= rfp.id %>"
-                                            class="text-primary mr-2"
-                                            title="Edit RFP"
-                                        >
-                                            <i class="mdi mdi-pencil"></i>
-                                        </a>
-
                                         <% if (rfp.status === 1) { %>
                                             <!-- Close RFP -->
                                             <a
@@ -134,16 +118,7 @@
                                                 class="text-danger"
                                                 title="Close RFP"
                                             >
-                                                <i class="mdi mdi-toggle-switch-off-outline"></i>
-                                            </a>
-                                        <% } else { %>
-                                            <!-- Reopen RFP -->
-                                            <a
-                                                href="/rfps/toggle-status/<%= rfp.id %>/1"
-                                                class="text-success"
-                                                title="Reopen RFP"
-                                            >
-                                                <i class="mdi mdi-toggle-switch-outline"></i>
+                                                <i class="mdi mdi-close"></i>
                                             </a>
                                         <% } %>
                                     </td>
